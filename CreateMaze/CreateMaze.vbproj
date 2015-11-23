@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AstarModule.vb" />
+    <Compile Include="excelModule.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>

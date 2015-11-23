@@ -1,8 +1,54 @@
 ﻿Module AstarModule
-    Dim height, width As Integer
-    Dim nowQueue As SortedSet(Of Node)
-    Dim nowSet As HashSet(Of Integer)
-    Dim outSet As HashSet(Of Integer)
+    Private height, width As Integer
+    Private nowQueue As SortedSet(Of Node)
+    Private nowSet As HashSet(Of Integer)
+    Private outSet As HashSet(Of Integer)
+
+    Public Sub findRoute(height As Integer, width As Integer)
+        AstarModule.height = height
+        AstarModule.width = width
+        nowQueue = New SortedSet(Of Node)()
+        nowSet = New HashSet(Of Integer)
+        nowQueue.Add(New Node(1, 0, Nothing))
+        nowSet.Add(1)
+        outSet = New HashSet(Of Integer)()
+
+        Do
+            Dim tmpNode = nowQueue.First()
+            outSet.Add(tmpNode.NO)
+            If expand(tmpNode) Then
+                paintCells(tmpNode)
+                paintCell(height * width, "dark")
+                Exit Do
+            End If
+            paintCell(tmpNode.NO, "light")
+
+            nowSet.Remove(tmpNode.NO)
+            nowQueue.Remove(tmpNode)
+        Loop
+    End Sub
+
+    Private Function expand(ByVal node As Node) As Boolean
+        Dim cell = node.NO
+        Dim adjacentCell As Integer
+        adjacentCell = cell - width '上
+        If adjacentCell >= 1 AndAlso Not outSet.Contains(adjacentCell) AndAlso Not hasBorderBetween(cell, adjacentCell) Then
+            If addNode(adjacentCell, node) Then Return True
+        End If
+        adjacentCell = cell - 1 '左
+        If adjacentCell Mod width <> 0 AndAlso Not outSet.Contains(adjacentCell) AndAlso Not hasBorderBetween(cell, adjacentCell) Then
+            If addNode(adjacentCell, node) Then Return True
+        End If
+        adjacentCell = cell + width '下
+        If adjacentCell <= numOfCell AndAlso Not outSet.Contains(adjacentCell) AndAlso Not hasBorderBetween(cell, adjacentCell) Then
+            If addNode(adjacentCell, node) Then Return True
+        End If
+        adjacentCell = cell + 1 '右
+        If cell Mod width <> 0 AndAlso Not outSet.Contains(adjacentCell) AndAlso Not hasBorderBetween(cell, adjacentCell) Then
+            If addNode(adjacentCell, node) Then Return True
+        End If
+        Return False
+    End Function
 
     Private Function addNode(cell As Integer, ByRef prev As Node) As Boolean
         If nowSet.Contains(cell) Then
@@ -32,55 +78,6 @@
         Return Nothing
     End Function
 
-    Private Function expand(ByVal node As Node) As Boolean
-        Dim cell = node.NO
-        Dim adjacentCell As Integer
-        adjacentCell = cell - width '上
-        If adjacentCell >= 1 AndAlso Not outSet.Contains(adjacentCell) AndAlso Not Form1.hasBorder(cell, adjacentCell) Then
-            If addNode(adjacentCell, node) Then Return True
-        End If
-        adjacentCell = cell - 1 '左
-        If adjacentCell Mod width <> 0 AndAlso Not outSet.Contains(adjacentCell) AndAlso Not Form1.hasBorder(cell, adjacentCell) Then
-            If addNode(adjacentCell, node) Then Return True
-        End If
-        adjacentCell = cell + width '下
-        If adjacentCell <= numOfCell AndAlso Not outSet.Contains(adjacentCell) AndAlso Not Form1.hasBorder(cell, adjacentCell) Then
-            If addNode(adjacentCell, node) Then Return True
-        End If
-        adjacentCell = cell + 1 '右
-        If cell Mod width <> 0 AndAlso Not outSet.Contains(adjacentCell) AndAlso Not Form1.hasBorder(cell, adjacentCell) Then
-            If addNode(adjacentCell, node) Then Return True
-        End If
-        Return False
-    End Function
-
-    Public Sub findRoute(height As Integer, width As Integer)
-        AstarModule.height = height
-        AstarModule.width = width
-        nowQueue = New SortedSet(Of Node)()
-        nowSet = New HashSet(Of Integer)
-        nowQueue.Add(New Node(1, 0, Nothing))
-        nowSet.Add(1)
-        outSet = New HashSet(Of Integer)()
-
-        Dim loopCounter = 0 '临时
-        Do
-            Dim tmpNode = nowQueue.First()
-            outSet.Add(tmpNode.NO)
-            If expand(tmpNode) Then
-                paintCells(tmpNode)
-                paintCell(height * width, "dark")
-                Exit Do
-            End If
-            '标记颜色
-            paintCell(tmpNode.NO, "light")
-
-            nowSet.Remove(tmpNode.NO)
-            nowQueue.Remove(tmpNode)
-            loopCounter += 1
-        Loop
-    End Sub
-
     Private Sub paintCells(ByVal node As Node)
         If node.NO = 1 Then
             paintCell(1, "dark")
@@ -91,7 +88,7 @@
     End Sub
 
     Private Sub paintCell(cell As Integer, shade As String)
-        With Form1.getCell(cell).Interior
+        With excelModule.getCell(cell).Interior
             .Pattern = Excel.XlPattern.xlPatternSolid
             .PatternColorIndex = Excel.XlPattern.xlPatternAutomatic
             If shade = "dark" Then

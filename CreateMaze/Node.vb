@@ -24,15 +24,7 @@
         Me.cost = cost
         Me.prev = prev
         Me.manhattanExpect = Form1.width - x + Form1.height - y
-        Me.manhattanExpect *= 2    '可调整
-    End Sub
-
-    Public Sub New(ByVal x As Integer, ByVal y As Integer, ByVal cost As Integer, ByRef prev As Node)
-        Me.x = x
-        Me.y = y
-        NO = (y - 1) * Form1.width + x
-        Me.cost = cost
-        Me.prev = prev
+        Me.manhattanExpect *= 1.5    '估测常数，可调整
     End Sub
 
     Public Function CompareTo(otherNode As Node) As Integer Implements IComparable(Of Node).CompareTo
