@@ -24,7 +24,7 @@
         Me.cost = cost
         Me.prev = prev
         Me.manhattanExpect = Form1.width - x + Form1.height - y
-        Me.manhattanExpect *= 1    '可调整
+        Me.manhattanExpect *= 2    '可调整
     End Sub
 
     Public Sub New(ByVal x As Integer, ByVal y As Integer, ByVal cost As Integer, ByRef prev As Node)

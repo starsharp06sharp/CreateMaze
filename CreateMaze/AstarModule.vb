@@ -69,16 +69,11 @@
             outSet.Add(tmpNode.NO)
             If expand(tmpNode) Then
                 paintCells(tmpNode)
+                paintCell(height * width, "dark")
                 Exit Do
             End If
             '标记颜色
-            'With Form1.getCell(tmpNode.NO).Interior
-            '    .Pattern = Excel.XlPattern.xlPatternSolid
-            '    .PatternColorIndex = Excel.XlPattern.xlPatternAutomatic
-            '    .ThemeColor = Excel.XlThemeColor.xlThemeColorAccent5
-            '    .TintAndShade = 0
-            '    .PatternTintAndShade = 0
-            'End With
+            paintCell(tmpNode.NO, "light")
 
             nowSet.Remove(tmpNode.NO)
             nowQueue.Remove(tmpNode)
@@ -88,18 +83,25 @@
 
     Private Sub paintCells(ByVal node As Node)
         If node.NO = 1 Then
-            paintCell(1)
+            paintCell(1, "dark")
             Exit Sub
         End If
         paintCells(node.prev)
-        paintCell(node.NO)
+        paintCell(node.NO, "dark")
     End Sub
 
-    Private Sub paintCell(cell As Integer)
+    Private Sub paintCell(cell As Integer, shade As String)
         With Form1.getCell(cell).Interior
             .Pattern = Excel.XlPattern.xlPatternSolid
             .PatternColorIndex = Excel.XlPattern.xlPatternAutomatic
-            .ThemeColor = Excel.XlThemeColor.xlThemeColorAccent5
+            If shade = "dark" Then
+                .ThemeColor = Excel.XlThemeColor.xlThemeColorAccent5
+            ElseIf shade = "light" Then
+                .ThemeColor = Excel.XlThemeColor.xlThemeColorAccent1
+            Else
+                Throw New ArgumentException("Unknown shade argument")
+            End If
+
             .TintAndShade = 0
             .PatternTintAndShade = 0
         End With
