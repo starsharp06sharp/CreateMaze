@@ -88,19 +88,20 @@
     End Sub
 
     Private Sub paintCell(cell As Integer, shade As String)
-        With excelModule.getCell(cell).Interior
-            .Pattern = Excel.XlPattern.xlPatternSolid
-            .PatternColorIndex = Excel.XlPattern.xlPatternAutomatic
-            If shade = "dark" Then
-                .ThemeColor = Excel.XlThemeColor.xlThemeColorAccent5
-            ElseIf shade = "light" Then
-                .ThemeColor = Excel.XlThemeColor.xlThemeColorAccent1
-            Else
-                Throw New ArgumentException("Unknown shade argument")
+        If shade = "dark" Then
+            excelModule.getCell(cell).FormulaR1C1 = "*"
+        ElseIf shade = "light"
+            If Form1.chkShowProcess.Checked Then
+                With excelModule.getCell(cell).Interior
+                    .Pattern = Excel.XlPattern.xlPatternSolid
+                    .PatternColorIndex = Excel.XlPattern.xlPatternAutomatic
+                    .ThemeColor = Excel.XlThemeColor.xlThemeColorAccent1
+                    .TintAndShade = 0
+                    .PatternTintAndShade = 0
+                End With
             End If
-
-            .TintAndShade = 0
-            .PatternTintAndShade = 0
-        End With
+        Else
+            Throw New ArgumentException("Unknown shade argument")
+        End If
     End Sub
 End Module

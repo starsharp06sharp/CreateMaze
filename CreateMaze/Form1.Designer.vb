@@ -28,6 +28,7 @@ Partial Class Form1
         Me.txtHeight = New System.Windows.Forms.TextBox()
         Me.btnCreate = New System.Windows.Forms.Button()
         Me.btnFind = New System.Windows.Forms.Button()
+        Me.chkShowProcess = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'lblWidth
@@ -64,7 +65,7 @@ Partial Class Form1
         '
         'btnCreate
         '
-        Me.btnCreate.Location = New System.Drawing.Point(102, 67)
+        Me.btnCreate.Location = New System.Drawing.Point(102, 86)
         Me.btnCreate.Name = "btnCreate"
         Me.btnCreate.Size = New System.Drawing.Size(75, 23)
         Me.btnCreate.TabIndex = 4
@@ -73,12 +74,24 @@ Partial Class Form1
         '
         'btnFind
         '
-        Me.btnFind.Location = New System.Drawing.Point(12, 67)
+        Me.btnFind.Location = New System.Drawing.Point(12, 86)
         Me.btnFind.Name = "btnFind"
         Me.btnFind.Size = New System.Drawing.Size(75, 23)
         Me.btnFind.TabIndex = 5
         Me.btnFind.Text = "寻路"
         Me.btnFind.UseVisualStyleBackColor = True
+        '
+        'chkShowProcess
+        '
+        Me.chkShowProcess.AutoSize = True
+        Me.chkShowProcess.Checked = True
+        Me.chkShowProcess.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkShowProcess.Location = New System.Drawing.Point(20, 66)
+        Me.chkShowProcess.Name = "chkShowProcess"
+        Me.chkShowProcess.Size = New System.Drawing.Size(108, 16)
+        Me.chkShowProcess.TabIndex = 6
+        Me.chkShowProcess.Text = "显示A*算法过程"
+        Me.chkShowProcess.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -86,7 +99,8 @@ Partial Class Form1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Window
-        Me.ClientSize = New System.Drawing.Size(189, 116)
+        Me.ClientSize = New System.Drawing.Size(189, 121)
+        Me.Controls.Add(Me.chkShowProcess)
         Me.Controls.Add(Me.btnFind)
         Me.Controls.Add(Me.btnCreate)
         Me.Controls.Add(Me.txtHeight)
@@ -106,4 +120,5 @@ Partial Class Form1
     Friend WithEvents txtHeight As TextBox
     Friend WithEvents btnCreate As Button
     Friend WithEvents btnFind As Button
+    Friend WithEvents chkShowProcess As CheckBox
 End Class
